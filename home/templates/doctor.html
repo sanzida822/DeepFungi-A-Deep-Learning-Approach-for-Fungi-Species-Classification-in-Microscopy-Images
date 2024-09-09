@@ -1,0 +1,141 @@
+
+<style>
+
+
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    form{
+   /*   box-shadow: 2px 3px 100px #ffffff;*/
+    }
+</style>
+
+
+    {% include 'navbar.html' %}
+<div class="container-fluid ">
+    <section class="container bg-light w-50 my-2 p-2 " style="height: 70vh;">
+        <form class="row g-3 m-2 p-3" style="height: 90%;" action="{% url 'adddoctor'%}" method="POST">
+            {% csrf_token %}
+            <div class="col-md-8">
+                <label for="inputPassword4" class="form-label">Name</label>
+                <input type="text" class="form-control" id="" name="name" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">Gender</label>
+                <div class="d-flex align-items-center ml-1">
+                    <select id="inputState" class="form-select" name="gender">
+                        <option selected>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+            </div>
+    
+          
+    <!--new row-->
+            <div class="col-md-8">
+                <label for="inputPassword4" class="form-label">Hospital</label>
+                <input type="text" class="form-control" id="" name="hospital" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">Department</label>
+                <div class="d-flex align-items-center ml-1">
+                    <select id="inputState" class="form-select" name="department">
+                        <option selected>Cardiology</option>
+                        <option>Neurology</option>
+                        <option>Dermatology</option>
+                        <option>Orthopedics</option>
+                        <option>Gastroenterology</option>
+                        <option>Endocrinology</option>
+                        <option>Oncology</option>
+                        <option>Urology</option>
+                        <option>Nephrology</option>
+                        <option>Obstetrics</option>
+                       
+                    </select>
+                </div>
+            </div>
+    
+      <!--new row-->
+      <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Mobile</label>
+        <input type="text" name="mobile" class="form-control" id="" required>
+    </div>
+
+    <!--new row-->
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" id="" required>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+        <button type="submit">Add doctor</button>
+      </div>
+        </form>
+    </section>
+
+    <h2 class="text-center">Doctors List</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Hospital</th>
+                    <th>Department</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                    <tr>
+                        <td>{{ doctor.name }}</td>
+                        <td>{{ doctor.gender }}</td>
+                        <td>{{ doctor.hospital }}</td>
+                        <td>{{ doctor.department }}</td>
+                        <td>{{ doctor.mobile }}</td>
+                        <td>{{ doctor.email }}</td>
+                        <td>
+                          <form method="POST" action="{% url 'deletedoctor' doctor.id %}" style="display:inline;"onsubmit="return confirmDeletion();">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form> 
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No doctors found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<script>
+    function confirmDeletion() {
+        return confirm('Are you sure you want to delete this doctor? This action cannot be undone.');
+    }
+    // Example: Displaying a success message
+    $(document).ready(function() {
+        {% if messages %}
+            {% for message in messages %}
+                toastr["{{ message.tags }}"]("{{ message }}");
+            {% endfor %}
+        {% endif %}
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Report</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .header-box .row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html '%}
+    <div class="container">
+        <div class="card bg-light text-dark">
+            <div class="card-header">
+                <h3 class="card-title">Patient Report</h3>
+            </div>
+            <div class="card-body">
+                <div class="header-box">
+                    <div class="row">
+                        <div class="col-md-6"><strong>Patient Name:</strong> {{ patient_diagnostic.patient_name }}</div>
+                        <div class="col-md-6"><strong>Age:</strong> {{ patient_diagnostic.age }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Gender:</strong> {{ patient_diagnostic.gender }}</div>
+                        <div class="col-md-6"><strong>Report Date:</strong> {{ patient_diagnostic.report_date }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Sample Collection Date:</strong> {{ patient_diagnostic.sample_date }} {{patient_diagnostic.sample_time}} </div>
+                        <div class="col-md-6"><strong>Referred Doctor:</strong> {{ patient_diagnostic.doctor.name }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Total cost:</strong> {{ patient_diagnostic.total_cost }}  </div>
+                        <div class="col-md-6"><strong>Advance payment:</strong> {{ patient_diagnostic.payment }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><strong>Due:</strong> {{ patient_diagnostic.due }}  </div>
+                       
+                </div>
+
+                <h4 class="mt-4 text-center" >Fungus Diagnostic Report</h4>
+                <div class="form-group">
+                    <label for="status" style="font-weight:bold">Name of the Fungus:</label>
+                    <input type="text" class="form-control" id="status" value="{{ result.name }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diagnosis" class="" style="font-weight:bold">Diagnostic Report:</label>
+                    <textarea class="form-control" id="diagnosis" rows="4" readonly>{{ result.description}}</textarea>
+                </div>
+                <form method="POST" action="{% url 'generate_pdf' patient_diagnostic.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="submit" class="btn btn-danger">Generate PDF</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

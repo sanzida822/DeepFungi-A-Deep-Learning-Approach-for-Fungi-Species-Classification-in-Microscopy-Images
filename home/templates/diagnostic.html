@@ -1,0 +1,315 @@
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    form{
+     /* box-shadow: 2px 5px 100px #ffffff;*/
+    }
+  
+</style>
+
+{% include 'navbar.html' %}
+<div class="container-fluid ">
+
+
+  <section class="container bg-light w-50 my-2 p-2 "> 
+    <form  action="{% url 'adddiagnostic' %}" method="POST" class="row g-3">
+       {% csrf_token %}
+      <div class="col-md-2">
+        <label for="inputEmail4" class="form-label"></label>
+        <input type="text" class="form-control" id="inputEmail4" value="{{latest_id}}" readonly>
+      </div>
+      <div class="col-md-4">
+        <label for="inputEmail4" class="form-label"></label>
+        <input type="text" class="form-control"  value="{{current_date_upper}}" readonly>
+      </div>
+  <!--new row-->
+<div class="row">
+ 
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Patient name</label>
+    <input type="text" name="name" class="form-control" id="inputPassword4" required>
+  </div>
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Mobile</label>
+    <input type="text" name="mobile" class="form-control" id="inputPassword4" required>
+  </div>
+</div>
+
+<!--new row-->
+    <div class="col-md-3">
+      <label for="inputPassword4" class="form-label">Gender</label>
+
+
+      <select id="inputState" name="gender" class="form-select">
+        <option selected>Male</option>
+        <option>Female</option>
+      
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="inputPassword4" class="form-label">Age</label>
+      <input type="number" min="0" class="form-control" id="inputPassword4" name="age" required>
+    </div>
+
+  <div class="col-md-6">
+      <label for="inputState" class="form-label">Doctor ref.</label>
+      <div class="d-flex align-items-center ml-1">
+          <select id="inputState" class="form-select" name="doctor_id" required>
+            {% for doctor in doctors %}
+              <option value="{{ doctor.id }}" >{{doctor.name}}</option>
+              {% endfor %}
+          </select>
+          <div class="bg-light p-1 m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="fas fa-plus ml-2" style="cursor: pointer; color: black;"></i>
+        </div>
+      </div>
+  </div>
+  
+  
+
+<!--new row-->
+    <div class="col-6">
+      <label for="inputAddress" class="form-label">Sample date</label>
+      <input type="date" name="sample_date" class="form-control" id="inputAddress" placeholder="" value="{{current_date_lower}}" required>
+    </div>
+    <div class="col-6">
+      <label for="inputAddress2" class="form-label">Time</label>
+      <input type="text" name="sample_time" class="form-control" id="inputAddress2" placeholder="" value="{{current_time}}" required>
+    </div>
+
+
+
+
+<!--new row-->
+<div class="col-6">
+  <label for="inputAddress" class="form-label">Report date</label>
+  <input type="date" name="report_date" class="form-control" id="inputAddress" placeholder="" value="{{future_date_format}}" required>
+</div>
+<div class="col-6">
+  <label for="inputAddress2" class="form-label">Time</label>
+  <input type="text" name="report_time" class="form-control" id="inputAddress2" placeholder="" value="{{current_time}}" required>
+</div>
+
+
+<!--new row-payment -->
+<div class="col-md-3">
+  <label for="inputAddress" class="form-label">Total cost </label>
+  <input type="text" name="total_cost" class="form-control" id="inputTotalCost" placeholder="" value="1500" required>
+</div>
+<div class="col-md-3">
+  <label for="inputState" class="form-label">Payment status</label>
+  <div class="d-flex align-items-center ml-1">
+      <select id="paymentStatus" class="form-select">
+          <option selected>No payment</option>
+          <option>Partial</option>
+          <option>Full</option>
+      </select>
+
+    </div>
+  </div>
+  <div class="col-md-3"  id="paymentField" style="display: none;">
+    <label for="inputAddress" class="form-label">Payment</label>
+    <input type="number" name="payment" class="form-control" id="inputPayment" value="0" min="0">
+  </div>
+
+  <div class="col-md-3">
+
+      <label for="inputAddress" class="form-label">Net Balance </label>
+      <input type="text" class="form-control" name="net_balance" id="inputNetBalance" placeholder="" required>
+    </div>
+
+    <div class="col-12 d-flex justify-content-center" >
+      <button type="submit" >Add</button>
+    </div>
+  </form>
+</section>
+ 
+    </div>
+
+
+    <!--warning message-->
+    
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Doctor</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <section class="container bg-light w-60 my-2 p-2 " style="">
+          <form class="row g-3 m-2 p-3" style="height: 90%;" action="{% url 'adddoctor'%}" method="POST">
+              {% csrf_token %}
+              <div class="col-md-12">
+           
+                  <input type="text" class="form-control" id="" name="name" placeholder="Doctor name" required>
+              </div>
+              <div class="col-md-12">
+            
+                  <div class="d-flex align-items-center ml-1">
+                      <select id="inputState" class="form-select" name="gender">
+                          <option selected>Male</option>
+                          <option>Female</option>
+                      </select>
+                  </div>
+              </div>
+      
+            
+        <!--new row-->
+              <div class="col-md-12">
+                 
+                  <input type="text" class="form-control" id="" name="hospital" placeholder="Hospital name" required >
+              </div>
+              <div class="col-md-12">
+      
+                  <div class="d-flex align-items-center ml-1">
+                      <select id="inputState" class="form-select" name="department">
+                          <option selected>Cardiology</option>
+                          <option>Neurology</option>
+                          <option>Dermatology</option>
+                          <option>Orthopedics</option>
+                          <option>Gastroenterology</option>
+                          <option>Endocrinology</option>
+                          <option>Oncology</option>
+                          <option>Urology</option>
+                          <option>Nephrology</option>
+                          <option>Obstetrics</option>
+                         
+                      </select>
+                  </div>
+              </div>
+      
+        <!--new row-->
+        <div class="col-md-12">
+       
+          <input type="text" name="mobile" placeholder="Mobile" class="form-control" id="" required>
+      </div>
+  
+      <!--new row-->
+      <div class="col-md-12">
+          
+          <input type="email" name="email" placeholder="Email"class="form-control" id="" required>
+      </div>
+ 
+         
+        
+         
+      
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit">Add</button>
+      </div>
+    </div>
+  </section>
+  </form>
+  </div>
+</div>
+
+<script>
+
+
+
+  //net balannce calculate
+
+ document.addEventListener('DOMContentLoaded', function () {
+      const totalCostInput = document.getElementById('inputTotalCost');
+      const paymentStatus = document.getElementById('paymentStatus');
+      const paymentField = document.getElementById('paymentField');
+      const paymentInput = document.getElementById('inputPayment');
+      const netBalanceInput = document.getElementById('inputNetBalance');
+
+      paymentStatus.addEventListener('change', function () {
+          updateVisibilityAndBalance();
+      });
+      paymentInput.addEventListener('input', function () {
+        enforceMaxPayment();
+        preventNegativePayment();
+        calculateNetBalance();
+    });
+
+      totalCostInput.addEventListener('input', function () {
+          updateMaxPayment();
+          calculateNetBalance();
+      });
+
+      function updateVisibilityAndBalance() {
+          const status = paymentStatus.value;
+
+          if (status === 'Partial') {
+              paymentField.style.display = 'block';
+              updateMaxPayment();
+          } else {
+              paymentField.style.display = 'none';
+          }
+
+          calculateNetBalance(); // Recalculate balance whenever status or total cost changes
+      }
+      function preventNegativePayment() {
+        let payment = parseFloat(paymentInput.value) || 0;
+
+        if (payment < 0) {
+            paymentInput.value = 0;
+        }
+    }
+    function updateMaxPayment() {
+        const totalPayment = parseFloat(totalCostInput.value) || 0;
+        paymentInput.max = totalPayment; // Set the max attribute dynamically
+    }
+      function enforceMaxPayment() {
+        const totalPayment = parseFloat(totalCostInput.value) || 0;
+        let payment = parseFloat(paymentInput.value) || 0;
+
+        if (payment > totalPayment) {
+            paymentInput.value = totalPayment;
+            payment = totalPayment;
+        }
+    }
+  
+    function calculateNetBalance() {
+      const status = paymentStatus.value;
+      const totalPayment = parseFloat(totalCostInput.value) || 0;
+      let netBalance = totalPayment;
+
+      if (status === 'Full') {
+          netBalance = 0;
+      } else if (status === 'Partial') {
+          const payment = parseFloat(paymentInput.value) || 0;
+          netBalance = totalPayment - payment;
+      }
+
+      netBalanceInput.value = netBalance;
+      console.log('Net Balance:', netBalance); // Debugging
+  }
+
+  // Ensure the net balance is updated right before form submission
+  document.querySelector('form').addEventListener('submit', function () {
+      calculateNetBalance();
+  });
+
+  // Initialize the calculation on page load
+  updateVisibilityAndBalance();
+});
+
+
+    // Example: Displaying a success message
+    $(document).ready(function() {
+        {% if messages %}
+            {% for message in messages %}
+                toastr["{{ message.tags }}"]("{{ message }}");
+            {% endfor %}
+        {% endif %}
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</body>
+</html>

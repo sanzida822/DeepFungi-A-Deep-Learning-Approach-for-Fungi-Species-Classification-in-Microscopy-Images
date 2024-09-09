@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin-top: 20px;
+        }
+        .form-control-file {
+            margin-bottom: 10px;
+        }
+        #imagePreview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card" >
+                    <div class="card-header text-white " style="background-color:#1c7577">
+                        <h3 class="card-title  text-center" >Patient Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data" action="{% url 'diagnosefungus' patient_diagnostic.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="sampleNo">Sample No:</label>
+                                <input type="text" class="form-control" id="sampleNo" value="{{ patient_diagnostic.id }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientName">Patient Name:</label>
+                                <input type="text" class="form-control" id="patientName" value="{{ patient_diagnostic.patient_name }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactNo">Contact No:</label>
+                                <input type="text" class="form-control" id="contactNo" value="{{ patient_diagnostic.mobile }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorName">Referred Doctor:</label>
+                                <input type="text" class="form-control" id="doctorName" value="{{ patient_diagnostic.doctor.name }}" readonly>
+                            </div>
+                         
+                            <div class="form-group">
+                                <label for="fungusImage">Upload Sample Image:</label>
+                                <input type="file" class="form-control-file" id="fungusImage" name="fungus_image" accept="image/*" required>
+                                <img id="imagePreview" src="" alt="Image Preview">
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="">Diagnose Fungus</button>
+                            </div>
+                      
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        document.getElementById('fungusImage').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

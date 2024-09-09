@@ -1,0 +1,76 @@
+<!-- pdf_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+        }
+        .header-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .header-box div {
+            flex: 1;
+            padding: 10px;
+            margin: 5px;
+        }
+        .header-box div:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+        h3, h4 {
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Patient Report</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="header-box">
+                    <div><strong>Patient Name:</strong> {{ patient_diagnostic.patient_name }}</div>
+                    <div><strong>Age:</strong> {{ patient_diagnostic.age }}</div>
+                    <div><strong>Gender:</strong> {{ patient_diagnostic.gender }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="header-box">
+                    <div><strong>Mobile:</strong> {{ patient_diagnostic.mobile }}</div>
+                    <div><strong>Report Date:</strong> {{ patient_diagnostic.report_date }}</div>
+                    <div><strong>Sample Collection Date:</strong> {{ patient_diagnostic.sample_date }}</div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="header-box">
+                    <div><strong>Referred Doctor:</strong> {{ patient_diagnostic.doctor.name }}</div>
+                    <div><strong>Total payment:</strong> {{ patient_diagnostic.total_cost }}</div>
+                    <div><strong>payment status:</strong> Paid</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        <h4 class="mt-4">Fungus Diagnostic Report</h4>
+        <div>
+            <strong>Status:</strong> {{ patient_report.species }}
+        </div>
+        <div>
+            <strong>Diagnostic Report:</strong>      {{ patient_report.description }}
+      
+        </div>
+    </div>
+</body>
+</html>
